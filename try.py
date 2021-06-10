@@ -32,4 +32,4 @@ from sklearn.impute  import SimpleImputer
 imputer = SimpleImputer(missing_values = np.nan, strategy = 'mean')
 imputer = imputer.fit(x[:, 1:3])
 x[:,1:3] = imputer.transform(x[:,1:3])
-print('x ===> ', x )
+
