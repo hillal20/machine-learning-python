@@ -1,10 +1,3 @@
-# setting the virtul evirenment for python we need to install pipenv
-# we cd into the folder of the project then we type : pip install pipenv
-# then we need to type : pipenv install requests 
-# if you see the Pipfile inside the project this means the project is ready 
-
-
-
 
 import numpy as np 
 import matplotlib.pyplot as plt
@@ -76,9 +69,12 @@ x_test = ss_x.transform(x_test) # covers 20% of data
 ## so we need to keep them the same and therefor we use only trasform and no need to device the logic 
 
 
-
-
-
+## ==== simple linear regression : yhot = titaZiro + titaOne * x
+## titaOne = sum of:  (x - mean(x's)) * (y - mean(y's))/(x - mean(x's))^2
+## titaZero = mean(y's) - titaOne * mean(x's)
+## unit-error is : y/yHot ( culculted via the linear regression fomula, predicted value )
+## mean square error : sum of (y - yHot)^2
+## root mean saquar error: root((y - yHot)^2)
 
 
 
