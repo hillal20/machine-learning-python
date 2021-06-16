@@ -116,20 +116,77 @@ import statsmodels.regression.linear_model as statsModelRegression
 # we need to add column filled with 1's to the start of the IV,
   # the coefficient of that one will be considered as b0
 x3 =  np.append( 
-    arr = np.ones(shape = (9,1)),# generating new metrix of IV contains a single column of ones 10 rows and 1 column
+    arr = np.ones(shape = (23,1)).astype(float),# generating new metrix of IV contains a single column of ones 10 rows and 1 column
     values = x3,# i am  adding the new metrix to the metrix x3 
     axis = 1, # one means fuse the 2 metrixs horizontally on the x axis 
 )
 
+x3=x3.astype(float)
 
-# creating new matrix of IV which gradually get optomized 
+
+# creating new matrix of IV which gradually get optomized , we take all x's 
 x3_optomize = x3[:,:]
 
 # we creat new regressor from the statsModelRegrssion 
-regressor3_SMR = statsModelRegression.OLS(endog = y3,  exog = x3_optomize).fit()
+regressor3_SMR = statsModelRegression.OLS( exog = x3_optomize, endog = y3).fit()
 
 # # we could predict  y3 as well
-# y3_predict_SMR = regressor3_SMR.predict(x3_optomize)
+y3_predict_SMR = regressor3_SMR.predict(x3_optomize)
+
+# so know this new regressor3_SMR will give me extra features like p value 
+
+summary = regressor3_SMR.summary()        # this will print a table contain more statistics 
+
+print('summary ===> ', summary)
+# printing the summary wil show us a  table, we need to look at : P > |t|
+# since the largest is great than 0.05, we need to regenerate x3_optomize and we keep less then 0.05
+
+# new optomise , we skip the highest p value 0.795 which is for x2 , means index 2 
+x3_optomize = x3[:,[0,1,3,4,5]]
+regressor3_SMR = statsModelRegression.OLS( exog = x3_optomize, endog = y3).fit()
+y3_predict_SMR = regressor3_SMR.predict(x3_optomize)
+summary = regressor3_SMR.summary()       
+print(' new summary ===> ', summary)
+
+
+# one more new optomise , we skip the highest p value 0.483 which is for x2 , means index 2 
+x3_optomize = x3[:,[0,1,3,4]]
+regressor3_SMR = statsModelRegression.OLS( exog = x3_optomize, endog = y3).fit()
+y3_predict_SMR = regressor3_SMR.predict(x3_optomize)
+summary = regressor3_SMR.summary()       
+print(' new summary ===> ', summary)
+
+
+# one more new optomise , we skip the highest p value 0.280 which is for x1 , means index 2 
+x3_optomize = x3[:,[0,2,3]]
+regressor3_SMR = statsModelRegression.OLS( exog = x3_optomize, endog = y3).fit()
+y3_predict_SMR = regressor3_SMR.predict(x3_optomize)
+summary = regressor3_SMR.summary()       
+print(' new summary ===> ', summary)
+
+
+# one more new optomise , we skip the highest p value  0.630 which is for x1 , means index 2 
+x3_optomize = x3[:,[0,2]]
+regressor3_SMR = statsModelRegression.OLS( exog = x3_optomize, endog = y3).fit()
+y3_predict_SMR = regressor3_SMR.predict(x3_optomize)
+summary = regressor3_SMR.summary()       
+print(' new summary ===> ', summary)
+
+
+
+# the conclusion is the backware elimination is a technique used to know the P values
+# which represet the most affacting colunms   in x's  in the prediction. we keep
+# removing the colunms until we get only the less then 0.05  
+# and the we can shoose the ring x colunm and y's to predict the result
+# a good p value is less or equal than 0.05
+
+
+
+
+
+
+
+
 
 
 
