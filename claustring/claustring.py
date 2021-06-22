@@ -50,7 +50,8 @@ wcss = []
 
 
 for i in range(1,11):
-    kmeans = KMeans(n_clusters=3, init='k-means++', max_iter=300, n_init=10) 
+    # we keep the number of clauster changing
+    kmeans = KMeans(n_clusters=i, init='k-means++', max_iter=300, n_init=10) 
     # k-means++ wiil palce the centroids in the dense areas 
 
     # if system found a problem to creat the clausters, the system will get the  minimal movement 
@@ -60,7 +61,7 @@ for i in range(1,11):
     wcss.append(kmeans.inertia_)
     print("inertia ======> ",kmeans.inertia_)
 
-  print("wcss ======> ",wcss)
+print("wcss ======> ",wcss)
 # we plot the graph of wcss vs k clausters , to explain the elbow 
 # plt.plot(range(1,11), wcss)
 # plt.xlabel("number of clausters")
@@ -69,11 +70,14 @@ for i in range(1,11):
 
 
 
-# 5- implementing k-means by 5
+# after watching the graph we conclude that at the clausters number is 5 the wcss start decreasing slowly
+# therefor we choose 5 is the right numbet of the clauseters 
+
+
+# 5- implementing k-means algorithm  by 5 cluasters 
 kmeans = KMeans(n_clusters=5, init='k-means++', max_iter=300, n_init=10) 
 
 # we predict 
-
 k_means_predict = kmeans.fit_predict(x5)
 
 # the way we read the k_means_predict is we compare it to x5, each row from x5
@@ -90,20 +94,20 @@ plt.scatter(
     label='clauster 0')
 
 plt.scatter(
-     x5[k_means_predict == 1 ,0], x5[k_means_predict == 1,1],
+      x5[k_means_predict == 1 ,0], x5[k_means_predict == 1,1],
     s = 100,
     c='blue',
     label='clauster 1')
 
 
 plt.scatter(
-     x5[k_means_predict == 2 ,0], x5[k_means_predict == 2,1],
+      x5[k_means_predict == 2 ,0], x5[k_means_predict == 2,1],
     s = 100,
     c='green',
     label='clauster 2')
 
 plt.scatter(
-     x5[k_means_predict == 3 ,0], x5[k_means_predict == 3,1],
+      x5[k_means_predict == 3 ,0], x5[k_means_predict == 3,1],
     s = 100,
     c='orange',
     label='clauster 3')
@@ -111,16 +115,18 @@ plt.scatter(
 
 
 plt.scatter(
-     x5[k_means_predict == 4 ,0], x5[k_means_predict == 4,1],
+      x5[k_means_predict == 4 ,0], x5[k_means_predict == 4,1],
     s = 100,
     c='purple',
     label='clauster 4')
+
+# we stoped at 4, because k_means_predict has only values : 0,1,2,3,4 clausters 
 
 plt.xlabel('annual income')
 plt.ylabel('spending score')
 
 
-# 7 - we plot the centroids 
+# # 7 - we plot the centroids 
 plt.scatter(
 # average of the x-cordine of each group,  average of the y-cordinate of each group 
     kmeans.cluster_centers_[:,0], kmeans.cluster_centers_[:,1],
